@@ -2,6 +2,8 @@
 
 namespace DipeshSukhia\LaravelHtmlMinify;
 
+use DipeshSukhia\LaravelHtmlMinify\BladeCompiler\ExcludeMinifyBladeCompiler;
+
 class LaravelHtmlMinify
 {
 
@@ -65,6 +67,21 @@ class LaravelHtmlMinify
 
         ];
 
-        return preg_replace( array_keys( $replace ), array_values( $replace ), ( string ) $html);
+        // Find sections to exclude
+        preg_match_all("/".ExcludeMinifyBladeCompiler::EXCLUDESTART."(.*?)".ExcludeMinifyBladeCompiler::EXCLUDEEND."/s", $html, $matches);
+
+        // Replace sections to exclude with placeholders
+        foreach ($matches[0] as $index => $exclude) {
+            $html = str_replace($exclude, "%%%EXCLUDE_$index%%%", $html);
+        }
+
+        $html = preg_replace( array_keys( $replace ), array_values( $replace ), ( string ) $html);
+
+        // Restore the excluded sections
+        foreach ($matches[0] as $index => $exclude) {
+            $html = str_replace("%%%EXCLUDE_$index%%%", $exclude, $html);
+        }
+
+        return $html;
     }
 }
