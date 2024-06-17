@@ -27,16 +27,18 @@ composer require dipeshsukhia/laravel-html-minify
 [Become a sponsor to Dipesh Sukhia
 ](https://github.com/sponsors/dipeshsukhia).
 
-## Usage
-
+## Setup
 ``` php
 php artisan vendor:publish --tag=LaravelHtmlMinify
-
 
 you should add middleware to your web middleware group within your app/Http/Kernel.php file:
 use DipeshSukhia\LaravelHtmlMinify\Middleware\LaravelMinifyHtml;
 LaravelMinifyHtml::class
+```
 
+## Usage
+
+``` php
 add in env
 for enable
 HTML_MINIFY = true
@@ -50,6 +52,11 @@ exclude route name for exclude from minify
 
 for particular html part 
 LaravelHtmlMinifyFacade::htmlMinify("<div>...</div>");
+
+for exclude html minify blade directory
+@excludeMinify
+    <div> exclude code from Minify </div>
+@endExcludeMinify
 ```
 
 ### Testing
