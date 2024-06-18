@@ -1,6 +1,6 @@
 <?php
 
-namespace DipeshSukhia\LaravelHtmlMinify;
+namespace DipeshSukhia\LaravelHtmlMinify\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
