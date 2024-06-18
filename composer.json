@@ -43,7 +43,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DipeshSukhia\\LaravelHtmlMinify\\LaravelHtmlMinifyServiceProvider"
+                "DipeshSukhia\\LaravelHtmlMinify\\Providers\\LaravelHtmlMinifyServiceProvider",
+                "DipeshSukhia\\LaravelHtmlMinify\\Providers\\ExcludeMinifyBladeServiceProvider"
             ],
             "aliases": {
                 "LaravelHtmlMinify": "DipeshSukhia\\LaravelHtmlMinify\\LaravelHtmlMinifyFacade"

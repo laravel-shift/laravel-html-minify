@@ -1,6 +1,6 @@
 <?php
 
-namespace DipeshSukhia\LaravelHtmlMinify;
+namespace DipeshSukhia\LaravelHtmlMinify\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,7 @@ class LaravelHtmlMinifyServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/config/config.php' => config_path('htmlminify.php'),
+                __DIR__ . '/../config/config.php' => config_path('htmlminify.php'),
             ], 'LaravelHtmlMinify');
         }
     }
@@ -24,7 +24,7 @@ class LaravelHtmlMinifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__ . '/config/config.php', 'HtmlMinify');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'HtmlMinify');
 
         // Register the main class to use with the facade
         $this->app->singleton('laravel-html-minify', function () {
