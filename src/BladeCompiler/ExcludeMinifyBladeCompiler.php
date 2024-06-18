@@ -5,36 +5,35 @@ namespace DipeshSukhia\LaravelHtmlMinify\BladeCompiler;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\Support\Str;
 
-class ExcludeMinifyBladeCompiler extends BladeCompiler
-{
-    protected $openExcludeMinifyCount = 0;
-    public const EXCLUDESTART = '<!-- EXCLUDE_MINIFY_START -->';
-    public const EXCLUDEEND = '<!-- EXCLUDE_MINIFY_END -->';
+class ExcludeMinifyBladeCompiler extends BladeCompiler {
 
-    public function compileString($value)
-    {
-        $result = parent::compileString($value);
+	protected $openExcludeMinifyCount = 0;
+	public const EXCLUDESTART = '<!-- EXCLUDE_MINIFY_START -->';
+	public const EXCLUDEEND   = '<!-- EXCLUDE_MINIFY_END -->';
 
-        if ($this->openExcludeMinifyCount > 0) {
-            throw new \Exception('Unclosed @excludeMinify directive detected.');
-        }
+	public function compileString( $value ) {
+		$result = parent::compileString( $value );
 
-        return $result;
-    }
+		if( $this->openExcludeMinifyCount > 0 ) {
+			throw new \Exception( 'Unclosed @excludeMinify directive detected.' );
+		}
 
-    public function compileExcludeMinify($expression)
-    {
-        $this->openExcludeMinifyCount++;
-        return "<?php echo $this::EXCLUDESTART ?>";
-    }
+		return $result;
+	}
 
-    public function compileEndExcludeMinify($expression)
-    {
-        if ($this->openExcludeMinifyCount == 0) {
-            throw new \Exception('Unexpected @endExcludeMinify directive detected.');
-        }
+	public function compileExcludeMinify( $expression ): string {
+		$this->openExcludeMinifyCount++;
 
-        $this->openExcludeMinifyCount--;
-        return "<?php echo $this::EXCLUDEEND ?>";
-    }
+		return "<?php echo '<!-- EXCLUDE_MINIFY_START -->'; ?>";
+	}
+
+	public function compileEndExcludeMinify( $expression ) {
+		if( $this->openExcludeMinifyCount == 0 ) {
+			throw new \Exception( 'Unexpected @endExcludeMinify directive detected.' );
+		}
+
+		$this->openExcludeMinifyCount--;
+
+		return "<?php echo '<!-- EXCLUDE_MINIFY_END -->' ?>";
+	}
 }
